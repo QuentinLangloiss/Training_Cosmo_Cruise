@@ -5,3 +5,22 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+require "open-uri"
+
+Trip.destroy_all
+User.destroy_all
+
+user = User.create!(email: "quentin@wagon.fr", password: "aloalo")
+user.save
+
+file = URI.open("https://cdn.spacetelescope.org/archives/images/thumb700x/heic2007a.jpg")
+trip = Trip.create(
+  title: 'Voyage intergalactique',
+  description: 'Un voyage épique à travers les confins de l\'univers',
+  location: 'Nébuleuse d\'Andromède',
+  category: 'Exploration spatiale',
+  price_per_day: 10000,
+  user: user
+)
+trip.photo.attach(io: file, filename: "galactic.png", content_type: "image/jpg")
+trip.save
