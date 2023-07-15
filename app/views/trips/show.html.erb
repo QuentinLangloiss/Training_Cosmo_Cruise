@@ -1,1 +1,25 @@
 <p>show</p>
+<h1><%= @trip.title %></h1>
+<hr>
+<h4>Destination</h4>
+<p><i class="fa-solid fa-location-dot"></i>  <%= @trip.location %></p>
+<hr>
+<h4>Price</h4>
+<p><i class="fa-solid fa-sack-dollar"></i>  <%= number_with_delimiter(@trip.price_per_day, :delimiter => ' ')%>€ / day / p</p>
+<hr>
+<h3>Description</h3>
+<p><%= @trip.description %></p>
+<hr>
+<%= simple_form_for [@trip, @booking] do |f| %>
+    <%= f.input :start_date,
+                label: "Select dates",
+                as: :string,
+                input_html: {data: { controller: "datepicker", value: @disbaled_dates } } %>
+    <%= f.submit class: "btn btn-update btn-hover-classic" %>
+  <% end %>
+  <hr>
+  <% if @trip.user == current_user %>
+    <%= link_to "Edit", edit_trip_path(@trip), class:"btn btn-update btn-hover-orange" %>
+    <%= link_to "Delete", trip_path(@trip), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this trip?"}, class: 'btn btn-update btn-hover-red' %>
+  <% end %>
+<%= link_to "go back", trips_path %>
